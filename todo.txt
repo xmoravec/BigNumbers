@@ -1,6 +1,0 @@
-hlavickovy subor
-doplnit do struktury znamienko
-dalsi c subor s testami
-zmenit spravne signatury
-opravit sub
-implementovat remainder podla slideov
