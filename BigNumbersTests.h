@@ -9,6 +9,12 @@ void test_addition();
 void test_multiplication();
 void test_subtraction();
 
+void test_isbigger();
+void test_remainder();
+void test_addmod();
+void test_multmod();
+void test_expmod();
+
 /* TODO */
 //tests for all the operations that are yet to be implemented.
 

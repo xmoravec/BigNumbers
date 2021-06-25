@@ -38,6 +38,13 @@ void bignum_enlarge(bignum *a, int new_size) {
     a->tab = realloc(a->tab, new_size * sizeof(int));
 }
 
+bignum *bignum_copy(bignum *a) {
+    bignum *copy = bignum_new();
+    copy->size = a->size;
+    memcpy(copy->tab, a->tab, a->size * sizeof(int));
+    return copy;
+}
+
 char *bignum_tostring(bignum * b) {
     int size = b->size;
     char *buffer = malloc(size * sizeof(char) + 1);
@@ -142,6 +149,53 @@ bignum *bignum_sub(bignum *a, bignum *b) {
          c->size--;
     }
     return c;
+}
+
+bool bignum_isbigger(bignum *a, bignum *b) {
+    if (a->size > b->size) {
+        return true;
+    }
+    if (b->size > a->size) {
+        return false;
+    }
+    for(int i = 0; i < a->size; i++) {
+        if (a->tab[i] >  b->tab[i]) {
+            return true;
+        }
+        if (b->tab[i] > a->tab[i]) {
+            return false;
+        }
+    }
+    return false;
+}
+
+bignum *bignum_remainder(bignum *a, bignum *b) {
+    if (bignum_isbigger(b, a)) {
+        return a;
+    }
+    bignum *remainder = bignum_copy(a);
+    while (bignum_isbigger(remainder, b)) {
+        remainder = bignum_sub(remainder, b);
+    }
+    return remainder;
+}
+
+bignum *bignum_addmod(bignum *a, bignum *b, bignum*n) {
+    return bignum_remainder(bignum_add(a, b), n);
+}
+
+bignum *bignum_multmod(bignum *a, bignum *b, bignum*n) {
+    return bignum_remainder(bignum_multiply(a, b), n);
+}
+
+bignum *bignum_expmod(bignum *a, bignum *b, bignum*n) {
+    bignum *exponent = bignum_copy(b);
+    bignum *result = bignum_copy(a);
+    while(bignum_isbigger(exponent, bignum_fromstring("1"))) {
+        result = bignum_multiply(result, a);
+        exponent = bignum_sub(exponent, bignum_fromstring("1"));
+    }
+    return bignum_remainder(result, n);
 }
 
 int int2bin(int b, uint8_t bits[32]) {

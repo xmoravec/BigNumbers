@@ -67,9 +67,49 @@ void test_subtraction() {
     bignum_free(c);*/
 }
 
+void test_isbigger() {
+    bignum *a = bignum_fromstring("4294966296");
+    bignum *b = bignum_fromstring("4294956296");
+    printf("Testing bignum isbigger with a: 100000 and b: 99999\nresult: %s, should be: true\n", bignum_isbigger(bignum_fromstring("100000"), bignum_fromstring("99999")) ? "true" : "false");
+    printf("Testing bignum isbigger with a: 74569 and b: 8585858585\nresult: %s, should be: false\n", bignum_isbigger(bignum_fromstring("74569"), bignum_fromstring("8585858585")) ? "true" : "false");
+    printf("Testing bignum isbigger with a: %s and b: %s\nresult: %s, should be: true\n", bignum_tostring(a), bignum_tostring(b), bignum_isbigger(a, b) ? "true" : "false");
+}
+
+void test_remainder() {
+    bignum *a = bignum_fromstring("4295034142");
+    bignum *b = bignum_fromstring("1295030142");
+    printf("Testing bignum remainder with a: %s and b: %s\nresult: %s, should be: 409943716\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(bignum_remainder(a, b)));
+}
+
+void test_addmod() {
+    bignum *a = bignum_fromstring("4295034142");
+    bignum *b = bignum_fromstring("100000000");
+    bignum *n = bignum_fromstring("1295030142");
+    printf("Testing addmod with a: %s and b: %s and n: %s\nresult: %s, should be: 509943716\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(n), bignum_tostring(bignum_addmod(a, b, n)));
+}
+
+void test_multmod() {
+    bignum *a = bignum_fromstring("4295034142");
+    bignum *b = bignum_fromstring("2");
+    bignum *n = bignum_fromstring("1295030142");
+    printf("Testing multmod with a: %s and b: %s and n: %s\nresult: %s, should be: 819887432\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(n), bignum_tostring(bignum_multmod(a, b, n)));
+}
+
+void test_expmod() {
+    bignum *a = bignum_fromstring("47");
+    bignum *b = bignum_fromstring("6");
+    bignum *n = bignum_fromstring("10000000000");
+    printf("Testing expmod with a: %s and b: %s and n: %s\nresult: %s, should be: 779215329\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(n), bignum_tostring(bignum_expmod(a, b, n)));
+}
+
 int main() {
     test_addition();
     test_multiplication();
     test_subtraction();
+    test_isbigger();
+    test_remainder();
+    test_addmod();
+    test_multmod();
+    test_expmod();
     return 0;
 }
