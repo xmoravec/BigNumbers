@@ -102,6 +102,35 @@ void test_expmod() {
     printf("Testing expmod with a: %s and b: %s and n: %s\nresult: %s, should be: 779215329\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(n), bignum_tostring(bignum_expmod(a, b, n)));
 }
 
+void test_int2bignum() {
+    int i = rand();
+    bignum *b = int_tobignum(i);
+    printf("\nTesting int: %d, to bignum b: %s\n", i, bignum_tostring(b));
+}
+
+void test_longlong2bignum() {
+    long long l = 1123456789876543210;
+    bignum *b = longlong_tobignum(l);
+    printf("Testing long long: %llu, to bignum b: %s\n", l, bignum_tostring(b));
+}
+
+void test_fermat() {
+    bignum *a = int_tobignum(7);
+    printf("Testing fermat, bignum a: %d, is a prime number: %d\n", bignum_tostring(a), fermat(a, 1));
+}
+
+void test_bignum_toint() {
+    bignum *test = int_tobignum(2147483647);
+    printf("Testing bignum to int, bignum: %s, to int: %d\n", bignum_tostring(test), bignum_toint(test));
+}
+
+void test_expmod_efficient() {
+    bignum *a = int_tobignum(47);
+    bignum *b = int_tobignum(15);
+    bignum *n = bignum_fromstring("10000000000");
+    printf("Testing efficient expmod with a: %s and b: %s and n: %s\nresult: %s, should be: 779215329\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(n), bignum_tostring(bignum_expmod_efficient(a, b, n)));
+}
+
 int main() {
     test_addition();
     test_multiplication();
@@ -111,5 +140,10 @@ int main() {
     test_addmod();
     test_multmod();
     test_expmod();
+    test_int2bignum();
+    test_longlong2bignum();
+    //test_fermat();
+    test_bignum_toint();
+    test_expmod_efficient();
     return 0;
 }

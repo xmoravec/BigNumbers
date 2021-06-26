@@ -15,6 +15,12 @@ void test_addmod();
 void test_multmod();
 void test_expmod();
 
+void test_int2bignum();
+void test_longlong2bignum();
+void test_fermat();
+void test_bignum_toint();
+void test_expmod_efficient();
+
 /* TODO */
 //tests for all the operations that are yet to be implemented.
 
