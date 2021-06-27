@@ -278,20 +278,15 @@ bool fermat(bignum *a, int t) {
     min = int_tobignum(2);
     bignum *random = bignum_new();
     random = int_tobignum(rand());
-    printf("Our random: %s\n", bignum_tostring(random));
     bignum *res = bignum_new();
     bignum *mem = bignum_new();
     for(int i = 1; i <= t; i++) {
         bignum *r = bignum_new();
         res = bignum_sub(max, min);
-        printf("res: %s\n", bignum_tostring(res));
         mem = bignum_remainder(random, res);
-        printf("mem: %s\n", bignum_tostring(mem));
         test = bignum_add(mem, min);
-        printf("test: %s\n", bignum_tostring(test));
-        r = bignum_expmod(test, max, a); // All lines are fine but this one, it should be right, but whenever we call expmod it will stop
+        r = bignum_expmod(test, max, a);
         shift_tab(r);
-        printf("r: %s\n", bignum_tostring(r));
         if(r->size != 1 && r->tab[0] != 1)
             bignum_free(r);
             return false;
@@ -316,25 +311,18 @@ bignum *bignum_expmod_efficient(bignum *a, bignum *b, bignum *n) {
     char *bin;
     bin = calloc(32, sizeof(char));
     int b_int = bignum_toint(b), i;
-    printf("b_int: %d, from b: %s\n", b_int, bignum_tostring(b));
     for(i = 0; b_int > 0; i++) {
         bin[i] = b_int % 2;
-        printf("%d", bin[i]);
         b_int /= 2;
     }
-    printf("\n");
     bignum *c = bignum_remainder(a, n);
-    printf("first c: %s\n", bignum_tostring(c));
     for(i = i-2; i >= 0; i--) {
         c = bignum_multiply(c, c);
         c = bignum_remainder(c, n);
-        printf("c: %s\n", bignum_tostring(c));
         if(bin[i] == 1) {
             c = bignum_multiply(c, a);
             c = bignum_remainder(c, n);
-            printf("binary number was 1: c: %s\n", bignum_tostring(c));
         }
-        printf("\n");
     }
     free(bin);
     return c;

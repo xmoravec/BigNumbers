@@ -1,4 +1,5 @@
 #include "BigNumbersTests.h"
+#include "inttypes.h"
 
 bignum *bignum_fibonnaci(int n) {
     bignum* a = bignum_fromstring("0");
@@ -25,9 +26,6 @@ bignum *bignum_factorial(int n) {
     return result;
 }
 
-/* Currently the free of the allocated memory doesnt work properly due
-   to invalid tab pointer bcs of pointer arithmetics/shift in bignum_add/multiply. */
-
 void test_addition() {
     bignum *a = bignum_fromstring("4294966296");
     bignum *b = bignum_fromstring("4294966296");
@@ -35,10 +33,6 @@ void test_addition() {
     printf("Testing bignum addition with a: %s and b: %s\nresult: %s\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(c));
     printf("Testing bignum_fibonnaci on n: %d\nresult: %s\n", 100, bignum_tostring(bignum_fibonnaci(100)));
     printf("The 101th value of fibonnacci is: %s\n", bignum_tostring(bignum_fibonnaci(101)));
-    
-    /*bignum_free(a);
-    bignum_free(b);
-    bignum_free(c);*/
 }
 
 void test_multiplication() {
@@ -48,10 +42,6 @@ void test_multiplication() {
     printf("Testing bignum multiply with a: %s and b: %s\nc: %s\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(c));
     printf("Testing bignum_factorial on n: %d, result: %s\n", 30, bignum_tostring(bignum_factorial(30)));
     printf("The value of factorial of 40 is: %s\n", bignum_tostring(bignum_factorial(40)));    
-    
-    /*bignum_free(a);
-    bignum_free(b);
-    bignum_free(c);*/
 }
 
 void test_subtraction() {
@@ -61,10 +51,6 @@ void test_subtraction() {
     printf("Testing bignum subtraction with a: %s and b: %s\nresult: %s, should be: 10000\n", bignum_tostring(a), bignum_tostring(b), bignum_tostring(c));
     printf("Testing bignum subtraction with a: 1111 and b: 999\nresult: %s, should be: 112\n", bignum_tostring(bignum_sub(bignum_fromstring("1111"), bignum_fromstring("999"))));
     printf("Testing bignum subtraction with a: 1111 and b: 987\nresult: %s, should be: 124\n", bignum_tostring(bignum_sub(bignum_fromstring("1111"), bignum_fromstring("987"))));
-    
-    /*bignum_free(a);
-    bignum_free(b);
-    bignum_free(c);*/
 }
 
 void test_isbigger() {
@@ -105,18 +91,18 @@ void test_expmod() {
 void test_int2bignum() {
     int i = rand();
     bignum *b = int_tobignum(i);
-    printf("\nTesting int: %d, to bignum b: %s\n", i, bignum_tostring(b));
+    printf("Testing int: %d, to bignum b: %s\n", i, bignum_tostring(b));
 }
 
 void test_longlong2bignum() {
-    long long l = 1123456789876543210;
-    bignum *b = longlong_tobignum(l);
-    printf("Testing long long: %llu, to bignum b: %s\n", l, bignum_tostring(b));
+    long long a = 1123456789876543210;
+    bignum *b = longlong_tobignum(a);
+    printf("Testing long long: %"PRId64", to bignum b: %s\n", a, bignum_tostring(b));
 }
 
 void test_fermat() {
     bignum *a = int_tobignum(7);
-    printf("Testing fermat, bignum a: %d, is a prime number: %d\n", bignum_tostring(a), fermat(a, 1));
+    printf("Testing fermat, bignum a: %s, is a prime number: %s\n", bignum_tostring(a), fermat(a, 1) ? "true" : "false");
 }
 
 void test_bignum_toint() {
@@ -144,6 +130,6 @@ int main() {
     test_longlong2bignum();
     //test_fermat();
     test_bignum_toint();
-    test_expmod_efficient();
+   // test_expmod_efficient();
     return 0;
 }
