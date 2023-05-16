@@ -1,4 +1,5 @@
-# BigNumbers
+# BigNumbers - Final Project for MICS2-14 - Algorithms for Numbers and Public-Key Cryptography
+# Authors: Erik Moravec, Mike Dos Santos Loureiro, Bernardo Miguel Barata Cabrita
 
 if you have GCC installed, the code can be compiled by running:
 gcc -std=c99 -Wall -Wextra BigNumbersTests.c BigNumbers.c -o bignum
